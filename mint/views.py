@@ -1,11 +1,7 @@
 from django.http import JsonResponse
 from django.shortcuts import render
-from pytezos import pytezos
-
 
 # Create your views here.
-
-
 def index(request):
     return render(request, 'mint.html')
 
@@ -16,7 +12,7 @@ def mint_request(request):
         token_key = request.POST.get('token_key')
         price = request.POST.get('price')
         number = request.POST.get('number')
-        print(key)
+        from pytezos import pytezos
         pytezos = pytezos.using(
             key=key,
             shell='https://mainnet.api.tez.ie')
