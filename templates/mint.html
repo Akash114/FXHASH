@@ -1,0 +1,120 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700' rel='stylesheet' type='text/css'>
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+
+	<link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <title>Mint Generative Token On FXHASH</title>
+
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+
+        var frm = $('#mint-form');
+        frm.on('submit', function(e){
+            e.preventDefault();
+
+            alert("in")
+            $.ajax({
+                type: "post",
+                url: "{% url 'mint_request' %}",
+                data: frm.serialize(),
+                success: function (data) {
+                    alert(data.msg);
+                },
+                error: function(data) {
+                    alert("Something went wrong!");
+                }
+            });
+            return false;
+        });
+        });
+    </script>
+
+<style>
+    .center {
+  margin: auto;
+  width: 70%;
+  padding: 10px;
+}
+
+</style>
+
+
+</head>
+<body>
+
+<section class="ftco-section img bg-hero" style="background-image: url(static/images/bg_1.jpg);">
+
+    <div class="row justify-content-center">
+    <div class="col-lg-12">
+        <div class="wrapper">
+            <div class="row no-gutters justify-content-between center">
+
+    <div class="col-lg-8">
+            <div class="contact-wrap w-100 p-md-5 p-4">
+                <h3 class="mb-4">Mint Generative Token</h3>
+                <div id="form-message-warning" class="mb-4"></div>
+        <div id="form-message-success" class="mb-4">
+        Your message was sent, thank you!
+        </div>
+
+
+    <form id="mint-form" method="post">
+
+        <div class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+        <input type="text" class="form-control" name="key" placeholder="Enter Your Private Key" required>
+        </div>
+    </div>
+        </div>
+
+        <div class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+        <input type="number" class="form-control" name="token_key" placeholder="Enter Token Key" required>
+        </div>
+    </div>
+        </div>
+        <div class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+        <input type="number" class="form-control" name="price" placeholder="Enter Token Price" required>
+        </div>
+    </div>
+        </div>
+        <div class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+        <input type="number" class="form-control" name="number" placeholder="Enter Numbers Of Token To Be Mineted" required>
+        </div>
+    </div>
+        </div>
+        <div class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+        <input type="submit" id="mint-button" name="mint-button" value="Mint" class="btn btn-primary">
+        </div>
+    </div>
+        </div>
+
+    </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</section>
+</body>
+</html>
