@@ -4,115 +4,342 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-	<link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700' rel='stylesheet' type='text/css'>
-
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js"></script>
 
-	<link rel="stylesheet" href="{% static 'css/style.css' %}">
-
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <title>Mint Generative Token On FXHASH</title>
-
-
     <script type="text/javascript">
-        $(document).ready(function(){
+        $(document).ready(function () {
 
-        var frm = $('#mint-form');
-        frm.on('submit', function(e){
-            e.preventDefault();
-            $.ajax({
-                type: "post",
-                url: "{% url 'mint_request' %}",
-                data: frm.serialize(),
-                success: function (data) {
-                    alert(data.msg);
-                },
-                error: function(data) {
-                    alert("Something went wrong!");
+            var frm = $('#mint-form');
+            var csv_frm = $('#mint-csv-form');
+            var freq = 1000; // freqency of update in ms
+            var progress_url = "{% url 'update_process' %}";
+            let progress = 0;
+            const progressBar = document.querySelector('.progressBar');
+            const bar = progressBar.querySelector('.bar')
+            const progressBarText = progressBar.querySelector('h3');
+
+            csv_frm.on('submit',function (e){
+                    $body = $("body");
+
+                e.preventDefault();
+                window.location.stop = 'False'
+                update_progress_info()
+                var data = new FormData($('form').get(1));
+                  $.ajax({
+                    url: '{% url 'mint_multiple' %}',
+                    type: 'POST',
+                    data: data,
+                    cache: false,
+                    processData: false,
+                    contentType: false,
+                      beforeSend:function() { $body.addClass("loading"); },
+
+                    success: function(data) {
+                        alert(data.msg);
+                        document.getElementById('cmd').style.display = 'block';
+                        document.getElementById('content').innerHTML = data.data;
+                        window.location.stop = 'True' // mark form as submitted.
+
+                    },
+            complete:function () {
+                $body.removeClass("loading");
+            }
+            ,
+                    error: function (data) {
+                        window.location.stop = 'True' // mark form as submitted.
+
+                        alert("Something went wrong!");
+                    }
+                 });
+                return false;
+            });
+
+            frm.on('submit', function (e) {
+                e.preventDefault();
+                window.location.stop = 'False'
+
+                update_progress_info()
+
+                    $.ajax({
+                        type: "post",
+                        url: "{% url 'mint_request' %}",
+                        data: frm.serialize(),
+                        success: function (data) {
+                            alert(data.msg);
+                            window.location.stop = 'True'// mark form as submitted.
+
+                        },
+                        error: function (data) {
+                            window.location.stop = 'True' // mark form as submitted.
+
+                            alert("Something went wrong!");
+                        }
+                    });
+                return false;
+            });
+
+
+                    // Update progress bar
+        function update_progress_info() {
+            if (window.location.stop === 'True'){
+                bar.style.width = '100%';
+                  progressBarText.innerHTML = '100%';
+                return false;
+            }
+            else {
+                $.getJSON(progress_url, function(data, status){
+                if (data) {
+                    progress = data.update_progress
+                        bar.style.width = progress + '%';
+                        progressBarText.innerHTML = `${progress} %`;
+                }
+                window.setTimeout(update_progress_info, freq);
+                });
+
+            }
+        };
+
+            choice()
+            var doc = new jsPDF();
+            var specialElementHandlers = {
+                '#editor': function (element, renderer) {
+                    return true;
+                }
+            };
+
+            $('#cmd').click(function () {
+                doc.fromHTML($('#content').html(), 15, 15, {
+                    'width': 170,
+                        'elementHandlers': specialElementHandlers
+                });
+                doc.save('MintingReport.pdf');
+            });
+
+
+        });
+
+
+    </script>
+    <script>
+        function choice() {
+            $('input[type=radio][name=choice]').on('change', function () {
+                switch ($(this).val()) {
+                    case 'csv':
+                        document.getElementById('csv-block').style.display = 'block';
+                        document.getElementById('wallet-block').style.display = 'None';
+
+                        break;
+                    case 'wallet':
+                        document.getElementById('wallet-block').style.display = 'block';
+                        document.getElementById('csv-block').style.display = 'None';
+
+                        break;
                 }
             });
-            return false;
-        });
-        });
-    </script>
+        }
 
-<style>
-    .center {
-  margin: auto;
-  width: 70%;
-  padding: 10px;
+    </script>
+    <style>
+        .center {
+            margin: auto;
+            width: 70%;
+            padding: 10px;
+        }
+
+        th, td {
+            padding: 5px;
+        }
+        .modal {
+    display:    none;
+    position:   fixed;
+    z-index:    1000;
+    top:        0;
+    left:       0;
+    height:     100%;
+    width:      100%;
+    background: rgba( 255, 255, 255, .8 )
+                url('http://i.stack.imgur.com/FhHRx.gif')
+                50% 50%
+                no-repeat;
 }
 
-</style>
+    body.loading .modal {
+    overflow: hidden;
+}
+body.loading .modal {
+    display: block;
+}
+.progressBar {
+  width: 400px;
+}
+.bar {
+  height: 20px;
+  background-color: #bada55;
+  width: 0;
+  max-width: 400px;
+  transition: width 0.2s cubic-bezier(1, 0.64, 0, 1.26)
+}
 
-
+    </style>
 </head>
 <body>
-
-<section class="ftco-section img bg-hero" style="background-image: url(static/images/bg_1.jpg);">
-
+<section class="ftco-section img bg-hero"
+         style="background-image: url(static/images/background.jpg);min-height: 700px;">
     <div class="row justify-content-center">
-    <div class="col-lg-12">
-        <div class="wrapper">
-            <div class="row no-gutters justify-content-between center">
-
-    <div class="col-lg-8">
-            <div class="contact-wrap w-100 p-md-5 p-4">
-                <h3 class="mb-4">Mint Generative Token</h3>
-                <div id="form-message-warning" class="mb-4"></div>
-        <div id="form-message-success" class="mb-4">
-        Your message was sent, thank you!
-        </div>
-
-
-    <form id="mint-form" method="post">
-
-        <div class="row">
-    <div class="col-md-12">
-        <div class="form-group">
-        <input type="text" class="form-control" name="key" placeholder="Enter Your Private Key" required>
-        </div>
-    </div>
-        </div>
-
-        <div class="row">
-    <div class="col-md-12">
-        <div class="form-group">
-        <input type="text" class="form-control" name="token_key" placeholder="Enter Token Key" required>
-        </div>
-    </div>
-        </div>
-        <div class="row">
-    <div class="col-md-12">
-        <div class="form-group">
-        <input type="number" step="0.01" class="form-control" name="price" placeholder="Enter Token Price" required>
-        </div>
-    </div>
-        </div>
-        <div class="row">
-    <div class="col-md-12">
-        <div class="form-group">
-        <input type="number" class="form-control" name="number" placeholder="Enter Numbers Of Token To Be Mineted" required>
-        </div>
-    </div>
-        </div>
-        <div class="row">
-    <div class="col-md-12">
-        <div class="form-group">
-        <input type="submit" id="mint-button" name="mint-button" value="Mint" class="btn btn-primary">
-        </div>
-    </div>
-        </div>
-
-    </form>
+        <div class="col-lg-12">
+            <div class="wrapper">
+                <div class="row no-gutters justify-content-between center">
+                    <div class="col-lg-8 center">
+                        <div class="contact-wrap w-100 p-md-5 p-4">
+                            <h3 class="mb-4">Mint Generative Token</h3>
+                            <div id="form-message-success" class="mb-4">
+                                Your message was sent, thank you!
                             </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <input type="radio" name="choice" id="csv" checked="checked"
+                                                       value="csv"> Upload A CSV<br/>
+                                                <input type="radio" name="choice" id="wallet" value="wallet"> Use Single
+                                                Wallet
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="input">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group"> - - - - - - - - - - - - - - - - - - - - - - - -
+                                                    - - - - - - - - - - - - - - - - - - - - - - - - -
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="wallet-block" style="display: None">
+
+                            <table>
+
+                                <form id="mint-form" method="post">
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                            <input type="radio" name="gas_type" value="low"> Low Gas Price
+                                                <input type="radio" name="gas_type" value="moderate"> Moderate Gas Price
+                                            <input type="radio" name="gas_type" value="high"> High Gas Price
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                        <div class="row">
+                                            <tr>
+                                                <td>
+                                                    Private Key
+                                                </td>
+                                                <td>
+                                                    : <input type="text" name=key placeholder="Enter Private Key...."
+                                                             class="form-control"
+                                                             style="width: 300px;display: inline-block;" required>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    Token ID
+                                                </td>
+                                                <td>
+                                                    : <input type="text" class="form-control" name="token_key"
+                                                             id="token_key" placeholder="Enter Token Key/ID eg.5413"
+                                                             style="width: 300px;display: inline-block;" required>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    Token Price
+                                                </td>
+                                                <td>
+                                                    : <input type="number" step="0.01" class="form-control" name="price"
+                                                             id="price" placeholder="Enter Token Price"
+                                                             style="width: 300px;display: inline-block;" required>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    Numbers Of Tokens
+                                                </td>
+                                                <td>
+                                                    : <input type="number" class="form-control" name="number"
+                                                             placeholder="Enter Numbers Of Token To Be Minted"
+                                                             style="width: 300px;display: inline-block;" required>
+                                                </td>
+                                            </tr>
+                                        </div>
+                                        <tr>
+                                            <td>
+                                                <input type="submit" id="mint-button" name="mint-button" value="Mint" class="btn btn-primary">
+                                            </td>
+                                        </tr>
+
+                                    </div>
+
+                                </form>
+
+                            </table>
+                            </div>
+                            <form id="mint-csv-form">
+                                <div class="input" id="csv-block" style="display: block">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <input type="file" name="csv-file" accept="text/csv">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                            <input type="radio" name="gas_type" value="low"> Low Gas Price
+                                                <input type="radio" name="gas_type" value="moderate"> Moderate Gas Price
+                                            <input type="radio" name="gas_type" value="high"> High Gas Price
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <input type="submit" id="mint-button" name="mint-button" value="Mint"
+                                                   class="btn btn-primary">
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                            </form>
+                            <div class="progressBar">
+                          <div class="bar"></div>
+                          <h3>0 %</h3>
+                        </div>
+                            <div id="content" style="display: None">
+
+                    </div>
+                    <div id="editor"></div>
+                    <button id="cmd" class="btn btn-info" style="display: None">Download Report</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 </section>
+
+    <div class="modal"><!-- Place at bottom of page --></div>
+
 </body>
 </html>

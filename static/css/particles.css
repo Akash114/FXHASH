@@ -1,0 +1,97 @@
+body{
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    background-size: fill;
+    background-position: center;
+    font-family: sans-serif;
+    background-blend-mode: difference;
+}
+
+.loginbox{
+    width: 320px;
+    height: 420px;
+    background: ;
+    color: #fff;
+    top: 50%;
+    left: 50%;
+    position: absolute;
+    transform: translate(-50%,-50%);
+    box-sizing: border-box;
+    padding: 70px 30px;
+}
+
+
+h1{
+    padding: 1 1 30px;
+    text-align: center;
+    font-size: 40px;
+}
+.loginbox p{
+    margin: 0;
+    padding: 0;
+    font-weight: bold;
+}
+.loginbox input{
+    width: 100%;
+    margin-bottom: 20px;
+}
+.loginbox input[type="text"],input[type="password"]
+{
+    border: none;
+    border-bottom: 1px solid #fff;
+    background: transparent;
+    outline: none;
+    height: 40px;
+    color: #fff;
+    font-size: 16px;
+}
+
+.loginbox input[type="submit"]
+{
+    border: none;
+    outline: none;
+    height: 40px;
+    background: white;
+    color: black;
+    font-size: 18px;
+    font-weight: 200;
+    border-radius: 20px;
+}
+.loginbox input[type="submit"]:hover
+{
+    cursor: pointer;
+    background: transparent;
+    color: white;
+}
+.loginbox a{
+    text-decoration :none;
+    font-size: 12px;
+    line-height: 20px;
+    color: darkgray;
+}
+.loginbox a:hover
+{
+    color: aqua;
+}
+#particles-js
+{
+    height: 100%;
+    background-color: black;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

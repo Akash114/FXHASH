@@ -1,0 +1,111 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="{% static 'css/home-style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/particles.css' %}">
+    <title>Mint Generative Token On FXHASH</title>
+    <style>
+        .center {
+            margin: auto;
+            width: 70%;
+            padding: 10px;
+        }
+
+        th, td {
+            padding: 5px;
+        }
+        .modal {
+    display:    none;
+    position:   fixed;
+    z-index:    1000;
+    top:        0;
+    left:       0;
+    height:     100%;
+    width:      100%;
+    background: rgba( 255, 255, 255, .8 )
+                url('http://i.stack.imgur.com/FhHRx.gif')
+                50% 50%
+                no-repeat;
+}
+
+
+    </style>
+</head>
+<body>
+    <div id="particles-js"></div>
+        <script type="text/javascript" src="{% static 'js/particles.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/app.js' %}"></script>
+
+
+
+    <div class="loginbox">
+
+        <!--        <form>
+            <p>Username</p>
+            <input type="text" name="username" placeholder="Enter username" required>
+            <p>Password</p>
+            <input type="password" name="password" placeholder="Enter password" required>
+            <a href="Portfolio1.html"><input type="submit" name="login" value="Login"></a>
+            <a href="#">Forgot your password?</a><br>
+            <a href="CreateACC.html">Create an account!</a>
+        </form>-->
+
+        <form autocomplete='off' class='form' method="post" action="{% url 'home' %}">
+            <div class='control'>
+                <h1>
+                    Sign In
+                </h1>
+            </div>
+
+            <div class='control block-cube block-input'>
+                <input name='id' placeholder='Username' type='text' style="border-width: 0px">
+                <div class='bg-top'>
+                    <div class='bg-inner'></div>
+                </div>
+                <div class='bg-right'>
+                    <div class='bg-inner'></div>
+                </div>
+                <div class='bg'>
+                    <div class='bg-inner'></div>
+                </div>
+            </div>
+            <div class='control block-cube block-input'>
+                <input name='pass' placeholder='Password' type='password'>
+                <div class='bg-top'>
+                    <div class='bg-inner'></div>
+                </div>
+                <div class='bg-right'>
+                    <div class='bg-inner'></div>
+                </div>
+                <div class='bg'>
+                    <div class='bg-inner'></div>
+                </div>
+            </div>
+            <button class='btn block-cube block-cube-hover' type='submit'>
+                <div class='bg-top'>
+                    <div class='bg-inner'></div>
+                </div>
+                <div class='bg-right'>
+                    <div class='bg-inner'></div>
+                </div>
+                <div class='bg'>
+                    <div class='bg-inner'></div>
+                </div>
+                <div class='text'>
+                    Log In
+                </div>
+            </button>
+        </form>
+    </div>
+
+
+
+</body>
+</html>
