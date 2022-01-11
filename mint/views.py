@@ -59,9 +59,9 @@ def mint_request(request):
         number = int(request.POST.get('number'))
         gas = request.POST.get('gas_type')
         gas_limit = {
-            'low': 2000,
-            'moderate': 10000,
-            'high': 23766
+            'low': 19000,
+            'moderate': 24000,
+            'high': 30000
         }
         global total
         total = number
