@@ -5,6 +5,8 @@ import time
 import pandas as pd
 import multiprocessing
 from multiprocessing import Manager
+import inspect
+from multiprocessing.pool import ThreadPool as Pool
 
 minted = 0
 total = 1
@@ -68,9 +70,9 @@ def mint_request(request):
             shell='https://mainnet.api.tez.ie')
         contract = pytezos.contract('KT1XCoGnfupWk7Sp8536EfrxcP73LmT68Nyr')
         args = (contract, token_key, price, number,gas_limit[gas])
-        task(args)
+        msg = task(args)
         return JsonResponse({
-            'msg': 'Minting is Completed...'
+            'msg': msg
         })
 
 
@@ -79,13 +81,15 @@ def task(args):
     status = []
     for i in range(args[3]):
         try:
-            print(args[0].mint(args[1]).with_amount(args[2]).as_transaction(gas_limit=args[4]).send())
+            print(args[0].mint(int(args[1])).with_amount(Decimal(args[2])).as_transaction(gas_limit=int(args[4])).send())
+            #print(args[0].mint(args[1]).with_amount(args[2]).operation_group.fill({'gas_limit':int(args[4])}))
             print("Thread is running")
-            time.sleep(10)
+            time.sleep(15)
             minted += 1
-            msg = str(args[1]) + ' :- ' + str(i) + ' Minted Successfully'
+            msg = str(args[1]) + ' :- ' + str(i+1) + ' Minted Successfully'
         except Exception as e:
-            msg = str(args[1]) + ' :- ' + str(i) + ' Minted with an error :- ' + str(e)
+            print(e)
+            msg = str(args[1]) + ' :- ' + str(i+1) + ' Minted with an error :- ' + str(e)
 
         status.append(msg)
     return status
@@ -114,7 +118,7 @@ def mint_multiple(request):
             args = (contract, row['Token ID'], row['Token Price'], row['Numbers Of Tokens'],gas_limit[gas])
             inputs.append(args)
 
-        pool = multiprocessing.Pool()
+        pool = Pool()
 
         outputs = pool.map(task, inputs)
         print(outputs)
