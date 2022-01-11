@@ -7,9 +7,9 @@
     <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js"></script>
 
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/home-style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/particles.css' %}">
     <title>Mint Generative Token On FXHASH</title>
     <script type="text/javascript">
         $(document).ready(function () {
@@ -145,6 +145,9 @@
 
     </script>
     <style>
+        input[type=radio]{
+            margin-top: -10px;
+        }
         .center {
             margin: auto;
             width: 70%;
@@ -188,110 +191,118 @@ body.loading .modal {
     </style>
 </head>
 <body>
-<section class="ftco-section img bg-hero"
-         style="background-image: url(static/images/background.jpg);min-height: 700px;">
-    <div class="row justify-content-center">
-        <div class="col-lg-12">
-            <div class="wrapper">
-                <div class="row no-gutters justify-content-between center">
-                    <div class="col-lg-8 center">
-                        <div class="contact-wrap w-100 p-md-5 p-4">
-                            <h3 class="mb-4">Mint Generative Token</h3>
-                            <div id="form-message-success" class="mb-4">
-                                Your message was sent, thank you!
+
+    <div id="particles-js" style="min-height: 1200px"></div>
+        <script type="text/javascript" src="{% static 'js/particles.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/app.js' %}"></script>
+
+        <div class="loginbox" style="min-width: 50%;min-height: 100%">
+
+                        <div class='control'>
+
+                            <h1 >Mint Generative Token</h1>
+                        </div>
+
+            <div class="form" style="min-width: 80%">
+                        <div class=''>
+                          Upload A CSV  <input type="radio" name="choice" id="csv" checked="checked"
+                                                       value="csv" style="margin-top: -20px">
+                           Use Single Wallet<input type="radio" name="choice" id="wallet" value="wallet">
+                        </div>
+            </div>
+            <div id="wallet-block" style="display: None">
+                <form id="mint-form" method="post" class="form" style="min-width: 80%">
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                Low Gas Price<input type="radio" name="gas_type" value="low">
+                                Moderate Gas Price   <input type="radio" name="gas_type" value="moderate">
+                                High Gas Price <input type="radio" name="gas_type" value="high">
+                                </div>
                             </div>
-
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <input type="radio" name="choice" id="csv" checked="checked"
-                                                       value="csv"> Upload A CSV<br/>
-                                                <input type="radio" name="choice" id="wallet" value="wallet"> Use Single
-                                                Wallet
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="input">
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="form-group"> - - - - - - - - - - - - - - - - - - - - - - - -
-                                                    - - - - - - - - - - - - - - - - - - - - - - - - -
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div id="wallet-block" style="display: None">
-
-                            <table>
-
-                                <form id="mint-form" method="post">
-
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                            <input type="radio" name="gas_type" value="low"> Low Gas Price
-                                                <input type="radio" name="gas_type" value="moderate"> Moderate Gas Price
-                                            <input type="radio" name="gas_type" value="high"> High Gas Price
-                                            </div>
-                                        </div>
-                                    </div>
+                        </div>
 
 
-
-                                        <div class="row">
-                                            <tr>
-                                                <td>
-                                                    Private Key
-                                                </td>
-                                                <td>
-                                                    : <input type="text" name=key placeholder="Enter Private Key...."
+                                <div class='control block-cube block-input'>
+                                    Private Key:<input type="text" name=key placeholder="Enter Private Key...."
                                                              class="form-control"
-                                                             style="width: 300px;display: inline-block;" required>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    Token ID
-                                                </td>
-                                                <td>
-                                                    : <input type="text" class="form-control" name="token_key"
-                                                             id="token_key" placeholder="Enter Token Key/ID eg.5413"
-                                                             style="width: 300px;display: inline-block;" required>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
+                                                             style="border-width: 0px;" required>
+                                        <div class='bg-top'>
+                    <div class='bg-inner'></div>
+                </div>
+                <div class='bg-right'>
+                    <div class='bg-inner'></div>
+                </div>
+                <div class='bg'>
+                    <div class='bg-inner'></div>
+                </div>
+            </div>
+                    <div class='control block-cube block-input'>
+                                                    Token Id
+            <input type="text" class="form-control" name="token_key" id="token_key" placeholder="Enter Token Key/ID eg.5413" style="border-width: 0px;" required="">                                        <div class='bg-top'>
+                    <div class='bg-inner'></div>
+                </div>
+                <div class='bg-right'>
+                    <div class='bg-inner'></div>
+                </div>
+                <div class='bg'>
+                    <div class='bg-inner'></div>
+                </div>
+            </div>
+
+                    <div class='control block-cube block-input'>
                                                     Token Price
-                                                </td>
-                                                <td>
                                                     : <input type="number" step="0.01" class="form-control" name="price"
                                                              id="price" placeholder="Enter Token Price"
-                                                             style="width: 300px;display: inline-block;" required>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    Numbers Of Tokens
-                                                </td>
-                                                <td>
-                                                    : <input type="number" class="form-control" name="number"
-                                                             placeholder="Enter Numbers Of Token To Be Minted"
-                                                             style="width: 300px;display: inline-block;" required>
-                                                </td>
-                                            </tr>
-                                        </div>
-                                        <tr>
-                                            <td>
-                                                <input type="submit" id="mint-button" name="mint-button" value="Mint" class="btn btn-primary">
-                                            </td>
-                                        </tr>
+                                                              required>
+                                        <div class='bg-top'>
+                    <div class='bg-inner'></div>
+                </div>
+                <div class='bg-right'>
+                    <div class='bg-inner'></div>
+                </div>
+                <div class='bg'>
+                    <div class='bg-inner'></div>
+                </div>
+            </div>
 
-                                    </div>
+            <div class='control block-cube block-input'>
+                                                    Numbers Of Tokens
+                                                    : <input type="number" class="form-control" name="number"
+                                                             placeholder="Enter Numbers Of Tokens"
+                                                             style="" required>
+            <div class='bg-top'>
+                    <div class='bg-inner'></div>
+                </div>
+                <div class='bg-right'>
+                    <div class='bg-inner'></div>
+                </div>
+                <div class='bg'>
+                    <div class='bg-inner'></div>
+                </div>
+            </div>
+
+                    <button class='btn block-cube block-cube-hover' id="mint-button" name="mint-button" value="Mint"  type='submit'>
+                <div class='bg-top'>
+                    <div class='bg-inner'></div>
+                </div>
+                <div class='bg-right'>
+                    <div class='bg-inner'></div>
+                </div>
+                <div class='bg'>
+                    <div class='bg-inner'></div>
+                </div>
+                <div class='text'>
+                    Mint
+                </div>
+            </button>
+
 
                                 </form>
 
-                            </table>
                             </div>
-                            <form id="mint-csv-form">
+                            <form id="mint-csv-form" class="form" style="min-width: 80%">
                                 <div class="input" id="csv-block" style="display: block">
                                     <div class="row">
                                         <div class="col-md-12">
@@ -301,25 +312,32 @@ body.loading .modal {
                                         </div>
                                     </div>
 
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                            <input type="radio" name="gas_type" value="low"> Low Gas Price
-                                                <input type="radio" name="gas_type" value="moderate"> Moderate Gas Price
-                                            <input type="radio" name="gas_type" value="high"> High Gas Price
-                                            </div>
-                                        </div>
-                                    </div>
-
-
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <input type="submit" id="mint-button" name="mint-button" value="Mint"
-                                                   class="btn btn-primary">
-                                        </div>
-                                    </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                Low Gas Price<input type="radio" name="gas_type" value="low">
+                                Moderate Gas Price   <input type="radio" name="gas_type" value="moderate">
+                                High Gas Price <input type="radio" name="gas_type" value="high">
                                 </div>
+                            </div>
+                        </div>
+
+{#                                    <input type="submit" id="mint-button" name="mint-button" value="Mint"#}
+{#                                                   class="btn btn-primary">#}
+                                    <button class='btn block-cube block-cube-hover' id="mint-button" name="mint-button" value="Mint"  type='submit'>
+                <div class='bg-top'>
+                    <div class='bg-inner'></div>
+                </div>
+                <div class='bg-right'>
+                    <div class='bg-inner'></div>
+                </div>
+                <div class='bg'>
+                    <div class='bg-inner'></div>
+                </div>
+                <div class='text'>
+                    Mint
+                </div>
+            </button>
                                 </div>
                             </form>
                             <div class="progressBar">
@@ -331,15 +349,9 @@ body.loading .modal {
                     </div>
                     <div id="editor"></div>
                     <button id="cmd" class="btn btn-info" style="display: None">Download Report</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+            <div class="modal"><!-- Place at bottom of page --></div>
 
-    <div class="modal"><!-- Place at bottom of page --></div>
+        </div>
 
 </body>
 </html>

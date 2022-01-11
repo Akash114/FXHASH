@@ -86,10 +86,10 @@ def task(args):
             print("Thread is running")
             time.sleep(15)
             minted += 1
-            msg = str(args[1]) + ' :- ' + str(i+1) + ' Minted Successfully'
+            msg = str(args[1]) + ' :- ' + str(i+1) + ' Minted Successfully <br/>'
         except Exception as e:
             print(e)
-            msg = str(args[1]) + ' :- ' + str(i+1) + ' Minted with an error :- ' + str(e)
+            msg = str(args[1]) + ' :- ' + str(i+1) + ' Minted with an error :- ' + str(e) + "<br/>"
 
         status.append(msg)
     return status
@@ -103,9 +103,9 @@ def mint_multiple(request):
         total = df['Numbers Of Tokens'].sum()
         inputs = []
         gas_limit = {
-            'low':2000,
-            'moderate':10000,
-            'high':23766
+            'low':19000,
+            'moderate':24000,
+            'high':30000
         }
         gas = request.POST.get('gas_type')
 
