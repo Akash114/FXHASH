@@ -30,9 +30,9 @@ def login(request):
         password = request.POST.get('pass')
         if ip in request.session:
             num = request.session[ip]
-            if num >= 1:
+            if num >= 3:
                 request.session['login'] = 'success'
-                return render(request,'login.html',{'msg': "Too Many Wrong Attempts"})
+                return render(request,'login.html',{'msg': "Your IP is BAN for Some time due to Too Many Wrong Attempts"})
         if id == 'FxHashMint' and password == 'mintToken@fxhash@421':
             return render(request,'mint.html')
         else:
@@ -40,7 +40,7 @@ def login(request):
                 request.session[ip] = 0
             request.session[ip] += 1
 
-            return render(request, 'login.html', {'msg': "Too Many Wrong Attempts"})
+            return render(request, 'login.html', {'msg': "Invalid login Credentials"})
 
 
 def index(request):
