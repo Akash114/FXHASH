@@ -3,13 +3,17 @@ from django.shortcuts import render
 from decimal import Decimal
 import time
 import pandas as pd
-import multiprocessing
-from multiprocessing import Manager
-import inspect
 from multiprocessing.pool import ThreadPool as Pool
 
 minted = 0
 total = 1
+
+"""
+Method:             get_client_ip
+Purpose:            To find out users IP
+Params:             [params]
+Return:             Users IP Address
+"""
 
 
 def get_client_ip(request):
@@ -19,6 +23,14 @@ def get_client_ip(request):
     else:
         ip = request.META.get('REMOTE_ADDR')
     return ip
+
+
+"""
+Method:             login
+Purpose:            To Display Login Page and verify user
+Params:             [request]
+Return:             -
+"""
 
 
 def login(request):
@@ -43,11 +55,27 @@ def login(request):
             return render(request, 'login.html', {'msg': "Invalid login Credentials"})
 
 
+"""
+Method:             index
+Purpose:            To Display index Page
+Params:             [request]
+Return:             -
+"""
+
+
 def index(request):
     if 'login' in request.session:
         return render(request, 'mint.html')
     else:
         return render(request,'login.html')
+
+
+"""
+Method:             mint_request
+Purpose:            To Mint NFT using Single wallet
+Params:             [request]
+Return:             Minting Massage
+"""
 
 
 def mint_request(request):
@@ -76,6 +104,14 @@ def mint_request(request):
         })
 
 
+"""
+Method:             task
+Purpose:            Main Minting Function
+Params:             contract object,Token Key,Price, number of tokens to be minted, gas limit
+Return:             Status OF Minting
+"""
+
+
 def task(args):
     global minted
     status = []
@@ -93,6 +129,14 @@ def task(args):
 
         status.append(msg)
     return status
+
+
+"""
+Method:             mint_multiple
+Purpose:            Function to handel multiple wallet minting request
+Params:             request
+Return:             -
+"""
 
 
 def mint_multiple(request):
@@ -132,6 +176,14 @@ def mint_multiple(request):
             'msg': 'Minting is Completed...',
             'data':data
         })
+
+
+"""
+Method:             update_process
+Purpose:            Function to Update Processbar 
+Params:             request
+Return:             -
+"""
 
 
 def update_process(request):
