@@ -154,11 +154,7 @@
 
     </script>
     <style>
-        input[type=radio]{
-            margin-top: -15px;
-            margin-left: 45px ;
-            display: flex;
-        }
+
         .center {
             margin: auto;
             width: 70%;
@@ -199,6 +195,24 @@ body.loading .modal {
   transition: width 0.2s cubic-bezier(1, 0.64, 0, 1.26)
 }
 
+* {
+  box-sizing: border-box;
+}
+
+/* Create two equal columns that floats next to each other */
+.column {
+  float: left;
+  width: 50%;
+  padding: 10px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
     </style>
 </head>
 <body>
@@ -215,10 +229,25 @@ body.loading .modal {
                         </div>
 
             <div class="form" style="min-width: 80%">
-                        <div class=''>
-                          Upload A CSV  <input type="radio" name="choice" id="csv" checked="checked"
+                        <div class='row'>
+                              <div class="column">
+
+                          Upload A CSV
+                              </div>
+                            <div class="column">
+
+                                  <input type="radio" name="choice" id="csv" checked="checked"
                                                        value="csv" style="">
-                           Use Single Wallet<input type="radio" name="choice" id="wallet" value="wallet">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="column">
+                                Use Single Wallet
+                            </div>
+                            <div class="column">
+                                <input type="radio" name="choice" id="wallet" value="wallet">
+
+                            </div>
                         </div>
             </div>
             <div id="wallet-block" style="display: None">
@@ -285,15 +314,38 @@ body.loading .modal {
                 </div>
             </div>
 
-                                            <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                Low Gas Price<input type="radio" name="gas_type" value="low">
-                                Moderate Gas Price   <input type="radio" name="gas_type" value="moderate">
-                                High Gas Price <input type="radio" name="gas_type" value="high">
-                                </div>
-                            </div>
-                        </div>
+
+                                    <div class="row">
+                                        <div class="column">
+                                            Low Gas Price
+
+                                        </div>
+                                        <div class="column">
+                                            <input type="radio" name="gas_type" value="low">
+
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="column">
+                                            Moderate Gas Price
+                                        </div>
+                                        <div class="column">
+                                             <input type="radio" name="gas_type" value="moderate">
+
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="column">
+                                            High Gas Price
+                                        </div>
+                                        <div class="column">
+                                            <input type="radio" name="gas_type" value="high">
+                                        </div>
+
+                                    </div>
+
 
 
                     <button class='btn block-cube block-cube-hover' id="mint-button" style="margin-top: 30px" name="mint-button" value="Mint"  type='submit'>
@@ -325,16 +377,36 @@ body.loading .modal {
                                         </div>
                                     </div>
 
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                Low Gas Price<input type="radio" name="gas_type" value="low">
-                                Moderate Gas Price   <input type="radio" name="gas_type" value="moderate">
-                                High Gas Price <input type="radio" name="gas_type" value="high">
-                                </div>
-                            </div>
-                        </div>
+<div class="row">
+                                        <div class="column">
+                                            Low Gas Price
 
+                                        </div>
+                                        <div class="column">
+                                            <input type="radio" name="gas_type" value="low">
+
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="column">
+                                            Moderate Gas Price
+                                        </div>
+                                        <div class="column">
+                                             <input type="radio" name="gas_type" value="moderate">
+
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="column">
+                                            High Gas Price
+                                        </div>
+                                        <div class="column">
+                                            <input type="radio" name="gas_type" value="high">
+                                        </div>
+
+                                    </div>
 {#                                    <input type="submit" id="mint-button" name="mint-button" value="Mint"#}
 {#                                                   class="btn btn-primary">#}
                                     <button class='btn block-cube block-cube-hover' id="mint-button" style="margin-top: 30px" name="mint-button" value="Mint"  type='submit'>
