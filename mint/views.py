@@ -5,6 +5,14 @@ import time
 import pandas as pd
 from multiprocessing.pool import ThreadPool as Pool
 
+
+"""
+Change User Name And Password Here....
+"""
+username = 'FxHashMint'
+password = 'mintToken@fxhash@421'
+
+
 minted = 0
 total = 1
 
@@ -39,13 +47,13 @@ def login(request):
     if request.method == 'POST':
         ip = get_client_ip(request)
         id = request.POST.get('id')
-        password = request.POST.get('pass')
+        pwd = request.POST.get('pass')
         if ip in request.session:
             num = request.session[ip]
             if num >= 3:
                 request.session['login'] = 'success'
                 return render(request,'login.html',{'msg': "Your IP is BAN for Some time due to Too Many Wrong Attempts"})
-        if id == 'FxHashMint' and password == 'mintToken@fxhash@421':
+        if id == username and pwd == password:
             return render(request,'mint.html')
         else:
             if ip not in request.session:
